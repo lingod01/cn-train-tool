@@ -27,7 +27,8 @@ setup(name='cn-train-tool',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-            #'BeautifulSoup',
+            'Django',
+            'Django-Piston',
             ],
       tests_require=[
             #'BeautifulSoup',

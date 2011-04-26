@@ -7,7 +7,7 @@ import re
     
 DEFAULT_ENCODE_PWD = 'liusheng'
 
-def yupiao(date, start_station, arrive_station, train_code = ''):
+def yupiao(date, start_station, arrive_station, train_code = None):
     u'''查询余票数目
     返回结果为一个列表，列表元素为字典, 比如
     [
@@ -31,6 +31,8 @@ def yupiao(date, start_station, arrive_station, train_code = ''):
     date = date.split('-')
     month = '%02d' %(int(date[0]))
     day = '%02d' %(int(date[1]))
+    if not train_code:
+        train_code = ''
 
     post_data = {
         'nmonth3' : month,
@@ -107,10 +109,20 @@ FIELDS = (
 )
 
 def format_trains(trains, format = 'text'):
-    ret = [u'|'.join([item[1] for item in FIELDS])]
-    for train in trains:
-        ret.append(u'|'.join([train[key].strip() for key,value in FIELDS]))
-    return u'\n'.join(ret)
+    if format == 'text':
+        ret = [u'|'.join([item[1] for item in FIELDS])]
+        for train in trains:
+            ret.append(u'|'.join([train[key].strip() for key,value in FIELDS]))
+        return u'\n'.join(ret)
+    elif format == 'html':
+        ret = ['<table>']
+        ret.append(u"<tr>%s</tr>" % u''.join([u"<th>%s</th>" % item[1] for item in FIELDS]))
+        for train in trains:
+            ret.append(u"<tr>%s</tr>" % u''.join([u"<td>%s</td>" %train[key].strip() for key,value in FIELDS]))
+        ret.append('</table>')
+        return u'\n'.join(ret)
+ 
+        
 
 def _encode_station(string, pwd, salt = None):
     u'''
