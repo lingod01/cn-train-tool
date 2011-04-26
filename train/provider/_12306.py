@@ -18,12 +18,12 @@ def yupiao(date, start_station, arrive_station, train_code = ''):
        'end_time' : '2011-04-26 22:23',
        'duration' : '01:23',
        'ticket' : {
-         u'软卧' : None, #None 表示无此席别 
+         u'软卧' : '--', #None 表示无此席别 
          u'特等座' : 15,
          u'一等座' : 38,
          u'二等座' : 431,
-         u'高级软卧' : -1, 
-         u'无座' :  True,  #True 表示有
+         u'高级软卧' : '--', 
+         u'无座' :  '有',  #True 表示有
        }
       }
     ]
@@ -66,29 +66,52 @@ def parse_trains(data):
     matches = pattern.findall(data)
     trains = []
     for match in matches:
+        match = match.decode('utf-8')
         seq,train_code,start_station,arrive_station,start_time,arrive_time,duration,yz,rz,yw,rw,tdz,ydz,edz,gzrw,wz,train_class = match.split(',')
         train = {
-            'train_code' : train_code.split('^')[0],
-            'start_station' : start_station.split('^')[0],
-            'arrive_station' : arrive_station.split('^')[0],
-            'start_time' : start_time,
-            'arrive_time' : arrive_time,
-            'duration' : duration,
-            'ticket': {
-                u'硬座' : yz,
-                u'软座' : rz,
-                u'硬卧' : yw,
-                u'软卧' : rw,
-                u'特等座' : tdz,
-                u'一等座' : ydz,
-                u'二等座' : edz,
-                u'高级软卧' : gzrw, 
-                u'无座' :  wz,  
-            }
+            u'train_code' : train_code.split('^')[0],
+            u'start_station' : start_station.split('^')[0],
+            u'arrive_station' : arrive_station.split('^')[0],
+            u'start_time' : start_time,
+            u'arrive_time' : arrive_time,
+            u'duration' : duration,
+            u'yz' : yz,
+            u'rz' : rz,
+            u'yw' : yw,
+            u'rw' : rw,
+            u'tdz' : tdz,
+            u'ydz' : ydz,
+            u'edz' : edz,
+            u'gjrw' : gzrw, 
+            u'wz' :  wz,  
         }
         trains.append(train)
     return trains
     
+FIELDS = (
+    (u'train_code' , u'车次'),
+    (u'start_station' , u'发站'),
+    (u'arrive_station' , u'到站'),
+    (u'start_time' , u'发时'),
+    (u'arrive_time' , u'到时'),
+    (u'duration' , u'历时'),
+    (u'yz', u'硬座'),
+    (u'rz', u'软座'),
+    (u'yw', u'硬卧'),
+    (u'rw', u'软卧'),
+    (u'tdz', u'特等座'),
+    (u'ydz', u'一等座'),
+    (u'edz', u'二等座'),
+    (u'gjrw', u'高级软卧'),
+    (u'wz', u'无座'), 
+)
+
+def format_trains(trains, format = 'text'):
+    ret = [u'|'.join([item[1] for item in FIELDS])]
+    for train in trains:
+        ret.append(u'|'.join([train[key].strip() for key,value in FIELDS]))
+    return u'\n'.join(ret)
+
 def _encode_station(string, pwd, salt = None):
     u'''
     >>> _encode_station(u'南京西', 'liusheng', 41736839)
@@ -117,8 +140,6 @@ def _encode_station(string, pwd, salt = None):
 
 
 if __name__ == "__main__":
-    '''parent.mygrid.addRow(0,"1,G7389(南京->杭州)^skbcx.jsp?cxlx=cc&date=20110427&trainCode=G7389 ,南京^skbcx.jsp?cxlx=czjgcc&zm=&date=20110427&stationName_passTrain=%E5%8D%97%E4%BA%AC , 上海虹桥^skbcx.jsp?cxlx=czjgcc&zm=&date=20110427&stationName_passTrain=%E4%B8%8A%E6%B5%B7%E8%99%B9%E6%A1%A5, 19:25 ,21:10 ,01:45, -- , -- ,--,--,--,88,333,--,有,高速" , 0);
-    '''
     #print parse_trains(s)
     print yupiao('04-27', u'南京', u'上海')
     #import doctest

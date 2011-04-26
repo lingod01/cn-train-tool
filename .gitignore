@@ -1,0 +1,6 @@
+*.pyc
+.*.swp
+*.log
+cn_train_tool.egg-info
+build/
+dist/
