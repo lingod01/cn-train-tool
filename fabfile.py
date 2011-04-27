@@ -10,8 +10,9 @@ env.project_name = 'dj_train'
 
 def conf():
     "Use the local virtual server"
-    env.hosts = ['labs.ftao.org']
-    env.path = '/opt/app/vpnshop'
+    #env.hosts = ['labs.ftao.org']
+    env.hosts = ['127.0.0.1']
+    env.path = '/opt/app/dj_train'
     env.user = 'ftao'
     env.group = 'ftao'
     env.key_filename = '/home/ftao/.ssh/deploy_key'
@@ -98,7 +99,7 @@ def rollback():
 def upload_tar_from_git():
     require('release', provided_by=[deploy, retry])
     "Create an archive from the current Git master branch and upload it"
-    local("git archive %(release)s.tar.gz" %env)
+    local("git archive --format=tar master | gzip > %(release)s.tar.gz" %env)
     run('mkdir %(path)s/releases/%(release)s' %env)
     put('%(release)s.tar.gz' %env, '%(path)s/packages/' %env)
     run('cd %(path)s/releases/%(release)s && tar -xzf ../../packages/%(release)s.tar.gz ' %env)
