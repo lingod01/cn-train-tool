@@ -77,12 +77,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/opt/app/dj_train/share/cache',
-    }
-}
+CACHE_BACKEND = 'file:///opt/app/dj_train/share/cache'
 
 ROOT_URLCONF = 'dj_train.urls'
 
