@@ -7,6 +7,14 @@ import re
     
 DEFAULT_ENCODE_PWD = 'liusheng'
 
+#TODO cache it 
+def get_ict_value():
+    page = urllib2.urlopen('http://dynamic.12306.cn/TrainQuery/leftTicketByStation.jsp')
+    content = page.read()
+    pattern = re.compile(r"<input type=\"hidden\" id=\"(ict\w+)\" name=\"(ict\w+)\" value=\"(\d+)\"\/>")
+    match = pattern.search(content)
+    return match.group(2),match.group(3)
+    
 def yupiao(date, start_station, arrive_station, train_code = None):
     u'''查询余票数目
     返回结果为一个列表，列表元素为字典, 比如
@@ -49,10 +57,11 @@ def yupiao(date, start_station, arrive_station, train_code = None):
         #no idea what is this
         'rFlag' : 1,
         'fdl' : 'fdl',
-        'ictN' : 629,
         'lx' : 00,
         'name_ckball' : 'value_ckball',
     }
+    ictKey,ictValue = get_ict_value()
+    post_data[ictKey] = ictValue
     for flag in ('DC', 'K', 'LK', 'PK', 'PKE', 'T', 'Z'):
         post_data['tFlag%s' %flag] = flag
 
@@ -153,6 +162,7 @@ def _encode_station(string, pwd, salt = None):
 
 if __name__ == "__main__":
     #print parse_trains(s)
-    print yupiao('04-27', u'南京', u'上海')
+    #print yupiao('04-27', u'南京', u'上海')
+    print get_ict_value()
     #import doctest
     #doctest.testmod()
