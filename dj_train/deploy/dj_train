@@ -1,0 +1,24 @@
+<VirtualHost *:80>
+    ServerName train.labs.ftao.org
+    DocumentRoot /var/www/dj_train
+
+    Alias /media /opt/app/dj_train/lib/python2.5/site-packages/django/contrib/admin/media
+    Alias /static /opt/app/dj_train/releases/current/dj_train/static
+
+    <Directory /var/www/dj_train/>
+        Options FollowSymLinks MultiViews ExecCGI
+        AllowOverride All
+        Order allow,deny
+        allow from all
+
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^(.*)$ dj_train.fcgi/$1 [QSA,L]
+    </Directory>
+        
+
+    ErrorLog /var/log/apache2/dj_train-error.log
+    LogLevel debug
+
+    CustomLog /var/log/apache2/dj_train-access.log combined
+</VirtualHost>
