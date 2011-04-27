@@ -77,7 +77,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-CACHE_BACKEND = 'file:///opt/app/dj_train/share/cache'
+#CACHE_BACKEND = 'file:///opt/app/dj_train/share/cache'
+CACHE_BACKEND = 'dummy://'
 
 ROOT_URLCONF = 'dj_train.urls'
 
@@ -94,7 +95,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'train.web',
+    'train.api',
     'train.ui',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',

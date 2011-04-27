@@ -9,7 +9,7 @@ if __name__ == "__main__":
     import sys
     parser = OptionParser()
     parser.add_option("-d", "--date", dest="date",
-                      help="date train leaves")
+                      help="date train leaves,format 2011-04-29")
     parser.add_option("-s", "--start", dest="start_station",
                       help="start station")
     parser.add_option("-a", "--arrive", dest="arrive_station",

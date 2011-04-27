@@ -37,8 +37,9 @@ def yupiao(date, start_station, arrive_station, train_code = None):
     ]
     '''
     date = date.split('-')
-    month = '%02d' %(int(date[0]))
-    day = '%02d' %(int(date[1]))
+    year = int(date[0])
+    month = '%02d' %(int(date[1]))
+    day = '%02d' %(int(date[2]))
     if not train_code:
         train_code = ''
 
@@ -173,7 +174,7 @@ def _encode_station(string, pwd, salt = None):
 
 if __name__ == "__main__":
     #print parse_trains(s)
-    #print yupiao('04-27', u'南京', u'上海')
+    #print yupiao('2011-04-27', u'南京', u'上海')
     #print get_ict_value()
     import doctest
     doctest.testmod()

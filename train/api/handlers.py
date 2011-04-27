@@ -19,6 +19,8 @@ class TrainHandler(BaseHandler):
         start = request.GET.get('start')
         arrive = request.GET.get('arrive')
         train_code = request.GET.get('train_code', None)
+        if len(date.split('-')) < 3:
+            date = datetime.datetime.today().strftime('%Y') + '-' + date
         if train_code is None:
             cache_key = '%s-%s-%s' %(date, start, arrive)
         else:
