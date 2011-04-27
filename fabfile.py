@@ -43,7 +43,7 @@ def setup():
     #sudo('aptitude install -y python-mysqldb')
     sudo('mkdir -p %(path)s; cd %(path)s; virtualenv .;chown -R %(group)s:%(user)s .;' %env)
     with settings(warn_only=True):
-        run('cd %(path)s; mkdir releases;mkdir packages;mkdir share; chmod 777 -R share;' %env)
+        run('cd %(path)s; mkdir releases;mkdir packages;mkdir share; mkdir -p share/cache; chmod 777 -R share;' %env)
 
 
 def deploy():
