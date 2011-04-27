@@ -71,6 +71,17 @@ def yupiao(date, start_station, arrive_station, train_code = None):
     return parse_trains(train_data)
 
     
+def get_suggestion(code, date):
+    u'''
+    >>> len(get_suggestion('NJ', '20110424'))
+    10
+    '''
+    page = urllib2.urlopen(
+        'http://dynamic.12306.cn/TrainQuery/autocomplete.do?method=getStationName&inputValue=%s&date=%s' %(code,date)
+    )
+    content = page.read()
+    matches = re.findall(r'<option value=\'.*?\'>(.*?)</option>', content)
+    return [m.decode('utf-8') for m in matches]
 
 def parse_trains(data):
     pattern = re.compile(r'parent\.mygrid\.addRow\(\d+,\"([^"]+)\" , \d+\);')
@@ -163,6 +174,7 @@ def _encode_station(string, pwd, salt = None):
 if __name__ == "__main__":
     #print parse_trains(s)
     #print yupiao('04-27', u'南京', u'上海')
-    print get_ict_value()
-    #import doctest
-    #doctest.testmod()
+    #print get_ict_value()
+    import doctest
+    doctest.testmod()
+    #print u','.join(get_suggestion('NJ', '20110425'))
