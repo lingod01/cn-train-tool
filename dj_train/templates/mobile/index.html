@@ -1,0 +1,17 @@
+{% extends "mobile/base.html" %}
+{% block content %}
+    <form id="yupiao_form" method="get">
+      <div data-role="fieldcontain">
+        <label for="date">日期:</label><input type="text" name="date" id="date"/>
+      </div>
+      <div data-role="fieldcontain">
+        <label for="start">发站:</label><input type="text" name="start" id="start"/>
+      </div>
+      <div data-role="fieldcontain">
+        <label for="arrive">到站:</label><input type="text" name="arrive" id="arrive"/>
+      </div>
+      <div data-role="fieldcontain">
+        <input type="submit" value="提交"/>
+      </div>
+    </form>
+{% endblock %}

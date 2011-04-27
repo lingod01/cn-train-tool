@@ -1,0 +1,15 @@
+{% extends "mobile/base.html" %}
+{% block content %}
+<table>
+  <tr>
+    {% for field_name in fields %}<th>{{field_name}}</th>{% endfor %}
+  </tr>
+  {% for train in trains %}
+  <tr>
+     {% for field_value in train %}
+        <td>{{ field_value }}</td>
+     {% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

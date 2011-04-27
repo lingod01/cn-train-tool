@@ -10,8 +10,8 @@ env.project_name = 'dj_train'
 
 def conf():
     "Use the local virtual server"
-    #env.hosts = ['labs.ftao.org']
-    env.hosts = ['127.0.0.1']
+    env.hosts = ['labs.ftao.org']
+    #env.hosts = ['127.0.0.1']
     env.path = '/opt/app/dj_train'
     env.user = 'ftao'
     env.group = 'ftao'
