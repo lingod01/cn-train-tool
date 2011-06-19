@@ -1,4 +1,4 @@
-Django==1.2.4
+Django
 Django-piston
 simplejson==2.1.3
 flup

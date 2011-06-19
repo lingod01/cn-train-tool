@@ -56,9 +56,9 @@ def yupiao(date, start_station, arrive_station, train_code = None):
         'trainCode_new_value' : 'true',
 
         #no idea what is this
-        'rFlag' : 1,
+        'rFlag' : '1',
         'fdl' : 'fdl',
-        'lx' : 00,
+        'lx' : '00',
         'name_ckball' : 'value_ckball',
     }
     ictKey,ictValue = get_ict_value()
@@ -66,8 +66,14 @@ def yupiao(date, start_station, arrive_station, train_code = None):
     for flag in ('DC', 'K', 'LK', 'PK', 'PKE', 'T', 'Z'):
         post_data['tFlag%s' %flag] = flag
 
-    f = urllib2.urlopen('http://dynamic.12306.cn/TrainQuery/iframeLeftTicketByStation.jsp',
-        data = urllib.urlencode(post_data))
+    request = urllib2.Request(
+        'http://dynamic.12306.cn/TrainQuery/iframeLeftTicketByStation.jsp',
+        urllib.urlencode(post_data),
+        {'Referer' : 'http://dynamic.12306.cn/TrainQuery/leftTicketByStation.jsp',
+         'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) Gecko/20100101 Firefox/4.0.1'}
+    )
+
+    f = urllib2.urlopen(request)
     train_data = f.read()
     return parse_trains(train_data)
 
@@ -174,8 +180,8 @@ def _encode_station(string, pwd, salt = None):
 
 if __name__ == "__main__":
     #print parse_trains(s)
-    #print yupiao('2011-04-27', u'南京', u'上海')
+    print yupiao('2011-06-20', u'上海', u'南京')
     #print get_ict_value()
-    import doctest
-    doctest.testmod()
+    #import doctest
+    #doctest.testmod()
     #print u','.join(get_suggestion('NJ', '20110425'))
